@@ -15,8 +15,8 @@ import sg.edu.nus.iss.vmcs.util.VMCSException;
 /**
  *
  *
- * @version 3.0 5/07/2003
- * @author Olivo Miotto, Pang Ping Li
+ * @version 5.0 5/09/2017
+ * @author Olivo Miotto, Pang Ping Li, Qin Zhi Guo
  */
 
 public class CoinLabelItemDisplay extends Panel {
