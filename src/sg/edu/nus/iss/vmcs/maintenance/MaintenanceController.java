@@ -24,6 +24,9 @@ import sg.edu.nus.iss.vmcs.util.*;
  * @version 4.0 5/09/2017
  * @author Divahar Sethuraman
  * Reason for Change: Reset the values to null for Show Total Cash Held and Press to Collect Cash when the Maintainer successfully pushes Press Here When Finished
+ *
+ * @version 5.0 5/09/2017
+ * @author Qin Zhi Guo
  */
 
 public class MaintenanceController {
@@ -70,6 +73,15 @@ public class MaintenanceController {
     }
 
     // invoked in CoinDisplayListener
+    public void displayCoin() {
+        try {
+            mpanel.getCoinDisplay().updateDisplay();
+        } catch (VMCSException e) {
+            System.out.println("MaintenanceController.displayCoin:" + e);
+        }
+    }
+
+    // invoked in CoinDisplayListener
     public void displayCoin(int idx) {
         StoreController sctrl = mCtrl.getStoreController();
         CashStoreItem item;
@@ -110,7 +122,13 @@ public class MaintenanceController {
         StoreController sctrl = mCtrl.getStoreController();
         int tc = sctrl.getTotalCash();
         mpanel.displayTotalCash(tc);
+    }
 
+    // TotalCashButtonListener
+    public void getTotalCoin() {
+        StoreController sctrl = mCtrl.getStoreController();
+        int tcoin = sctrl.getTotalCoin();
+        mpanel.displayTotalCoin(tcoin);
     }
 
     // TransferCashButtonListener
@@ -120,15 +138,19 @@ public class MaintenanceController {
         MachineryController machctrl = mCtrl.getMachineryController();
 
         int cc; // coin quantity;
+        int vl; // cash value;
 
         try {
-
+            this.displayCoin();
+            vl = sctrl.getTotalCash();
             cc = sctrl.transferAll();
             mpanel.displayCoins(cc);
+            mpanel.displayTotalCoin(cc);
+            mpanel.displayTotalCash(vl);
             machctrl.displayCoinStock();
             // the cash qty current is displayed in the Maintenance panel needs to be update to be 0;
             // not required.
-            mpanel.updateCurrentQtyDisplay(Store.CASH, 0);
+            //mpanel.updateCurrentQtyDisplay(Store.CASH, 0);
         } catch (VMCSException e) {
             System.out.println("MaintenanceController.transferAll:" + e);
         }
@@ -162,8 +184,7 @@ public class MaintenanceController {
             msg.setLocation(500, 500);
             return;
         }
-
-        mpanel.initCollectCash();
+		mpanel.initCollectCash();
         mpanel.initTotalCash();
         mpanel.setActive(MaintenancePanel.DIALOG, true);
 
