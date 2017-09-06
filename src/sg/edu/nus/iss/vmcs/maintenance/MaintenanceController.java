@@ -18,8 +18,15 @@ import sg.edu.nus.iss.vmcs.util.*;
 /**
  *
  *
+ * @version 3.0 5/07/2003
+ * @author Olivo Miotto, Pang Ping Li
+ *
+ * @version 4.0 5/09/2017
+ * @author Divahar Sethuraman
+ * Reason for Change: Reset the values to null for Show Total Cash Held and Press to Collect Cash when the Maintainer successfully pushes Press Here When Finished
+ *
  * @version 5.0 5/09/2017
- * @author Olivo Miotto, Pang Ping Li, Qin Zhi Guo
+ * @author Qin Zhi Guo
  */
 
 public class MaintenanceController {
@@ -177,7 +184,8 @@ public class MaintenanceController {
             msg.setLocation(500, 500);
             return;
         }
-
+		mpanel.initCollectCash();
+        mpanel.initTotalCash();
         mpanel.setActive(MaintenancePanel.DIALOG, true);
 
     }
